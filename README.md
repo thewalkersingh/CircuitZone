@@ -4,41 +4,39 @@ Welcome to my Arduino Projects repository! This collection includes a variety of
 Project List
 
 1. **Battery Management System**
-   Description: Brief overview of the project, including its purpose and core functionality.
-   Hardware Components:
-   Arduino model (e.g., Arduino Uno, Nano)
-   Sensors (e.g., ultrasonic, temperature)
-   Actuators (e.g., motors, servos, relays)
-   Features:
-   Feature 1
-   Feature 2
-   Feature 3
+   -Description:
+   This project showcases a Battery Management System (BMS) designed to manage the temperature of a rechargeable battery. The system uses an Arduino Nano to monitor the battery’s health and activates a cooling system when necessary to prevent overheating.
+   -Hardware Components:
+   -Arduino model (e.g., Arduino Uno, Nano)
+   -Sensors (e.g., ultrasonic, temperature)
+   -Actuators (e.g., motors, servos, relays)
+   -Features:
+   -Feature 1
+   -Feature 2
+   -Feature 3
 2. **Hand Gesture Project**
-   Description: Brief explanation of the project and its application.
-   Hardware Components:
-   Component 1 (e.g., LEDs, resistors)
-   Module 1 (e.g., Wi-Fi module, Bluetooth)
-   Key Highlights:
-   Highlight 1
-   Highlight 2
+   -Description: Brief explanation of the project and its application.
+   -Hardware Components:
+   -Component 1 (e.g., LEDs, resistors)
+   -Module 1 (e.g., Wi-Fi module, Bluetooth)
+   -Key Highlights:
+   -Highlight 1
+   -Highlight 2
 3. **Home Automation**
-   Description: Brief project description and its objective.
-   Hardware Components:
-   Component 1
-   Component 2
-   Getting Started
-   Clone the repository:
+   -Description: Brief project description and its objective.
+   -Hardware Components:
+   -Component 1
+   -Component 2
+   -Key Highlights:
+   -Highlight 1
+   -Highlight 2
 
-bash
-Copy code
-git clone https://github.com/yourusername/arduino-projects.git
+Getting Started
+Clone the repository:
+`git clone https://github.com/yourusername/arduino-projects.git`
 Navigate to the desired project directory:
-
-bash
-Copy code
-cd ProjectFolder
+-cd ProjectFolder
 Upload the code to your Arduino using the Arduino IDE:
-
 Open the .ino file in the Arduino IDE.
 Select the correct board and port.
 Click on the "Upload" button to upload the code to the Arduino.
