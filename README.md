@@ -1,8 +1,9 @@
-Arduino Projects Repository
+## Arduino Projects Repository
+
 Welcome to my Arduino Projects repository! This collection includes a variety of projects utilizing Arduino microcontrollers to explore areas like automation, sensor interfacing, IoT, robotics, and embedded systems. Each project demonstrates different use cases and functionalities of the Arduino platform.
 Project List
 
-1. [Project Name 1]
+1. [Battery Management System]
    Description: Brief overview of the project, including its purpose and core functionality.
    Hardware Components:
    Arduino model (e.g., Arduino Uno, Nano)
@@ -12,7 +13,7 @@ Project List
    Feature 1
    Feature 2
    Feature 3
-2. [Project Name 2]
+2. [Hand Gesture Project]
    Description: Brief explanation of the project and its application.
    Hardware Components:
    Component 1 (e.g., LEDs, resistors)
@@ -20,7 +21,7 @@ Project List
    Key Highlights:
    Highlight 1
    Highlight 2
-3. [Project Name 3]
+3. [Home Automation]
    Description: Brief project description and its objective.
    Hardware Components:
    Component 1
