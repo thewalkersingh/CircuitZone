@@ -7,29 +7,30 @@ Project List
    -Description:
    This project showcases a Battery Management System (BMS) designed to manage the temperature of a rechargeable battery. The system uses an Arduino Nano to monitor the battery’s health and activates a cooling system when necessary to prevent overheating.
    -Hardware Components:
-   -Arduino model (e.g., Arduino Uno, Nano)
-   -Sensors (e.g., ultrasonic, temperature)
-   -Actuators (e.g., motors, servos, relays)
+   -Arduino Nano
+   -Temperature sensor, Voltage sensor
+   -Motors, servos, relays
    -Features:
-   -Feature 1
-   -Feature 2
-   -Feature 3
+   -Monitoring the battery temperature and displaying it
+   -Keeping the battery temperature below nominal 
+   -Auto shut the charging and alarm if the system is not working
 2. **Hand Gesture Project**
-   -Description: Brief explanation of the project and its application.
+   -Description: A music play system with hand gesture sound change
    -Hardware Components:
-   -Component 1 (e.g., LEDs, resistors)
-   -Module 1 (e.g., Wi-Fi module, Bluetooth)
+   -LCD, LEDs, resistors
+   -Infrared Module
    -Key Highlights:
-   -Highlight 1
-   -Highlight 2
+   -Change the volume of the player by hand gesture.
+   -Display the volume level on the screen.
 3. **Home Automation**
-   -Description: Brief project description and its objective.
+   -Description: A smart home automation system controlled via a normal TV remote
    -Hardware Components:
-   -Component 1
-   -Component 2
+   -Arduino nano
+   -IR receiver
+   -Relay 12V
    -Key Highlights:
-   -Highlight 1
-   -Highlight 2
+   -User can control any appliance with a remote.
+   -Sleep mode, pressing a button will turn off all the devices except the fan.
 
 Getting Started
 Clone the repository:
@@ -43,8 +44,9 @@ Click on the "Upload" button to upload the code to the Arduino.
 Required Software
 Arduino IDE
 Any additional libraries required for each project will be mentioned in the respective project folder.
-Contributions
+
+### Contributions
 Feel free to fork this repository, suggest improvements, or use the projects for learning purposes. Contributions are welcome!
 
-Contact
-For questions, feedback, or collaborations, you can reach me at [your email].
+### Contact
+For questions, feedback, or collaborations, you can reach me at dev.walkersingh@gmail.com.
