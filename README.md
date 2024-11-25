@@ -37,8 +37,8 @@ Clone the repository:
 `git clone https://github.com/yourusername/arduino-projects.git`
 Navigate to the desired project directory:
 -cd ProjectFolder
-Upload the code to your Arduino using the Arduino IDE:
-Open the .ino file in the Arduino IDE.
+-Upload the code to your Arduino using the Arduino IDE:
+-Open the .ino file in the Arduino IDE.
 Select the correct board and port.
 Click on the "Upload" button to upload the code to the Arduino.
 Required Software
