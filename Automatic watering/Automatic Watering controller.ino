@@ -1,0 +1,170 @@
+#include <RTClib.h>
+#include <SPI.h>
+#include <SD.h>
+#include <Wire.h>
+
+const char* filename = "datalog.csv";
+File file;
+RTC_DS1307 rtc;
+char Time[20];
+
+const int dry1 = 544; // Minimum sensor1 dryness to turn electric valve on
+const int wet1 = 270; // Maximum sensor1 wetness to turn electric valve off
+
+const int dry2 = 544; // Minimum sensor2 dryness to turn electric valve on
+const int wet2 = 270; // Maximum sensor2 wetness to turn electric valve off
+
+const int dry3 = 544; // Minimum sensor3 dryness to turn electric valve on
+const int wet3 = 270; // Maximum sensor3 wetness to turn electric valve off
+
+const int dry4 = 544; // Minimum sensor4 dryness to turn electric valve on
+const int wet4 = 270; // Maximum sensor4 wetness to turn electric valve off
+
+const int LowMoisture = 20;    // Minimum moisture level before misting
+const int HighMoisture = 75;   // Maximum moisture level before counting 1 
+const int maxwatercount = 2;   // Maximum times to water plants a day
+
+const int pps= 2;              // Setting pressure pump switch to Pin 2
+const int ms = 3;              // Setting manual watering switch to Pin 3
+const int ev = 4;              // Setting electrical valve to Pin 4
+const int pp = 5;              // Setting pressure pump to Pin 5
+
+int watercount = 0;      // Counting the number of watering sessions
+int watercond = 0;       // Condition to water (TRUE or FALSE) 
+
+void setup() {
+  Serial.begin(9600);
+  Wire.begin();
+  rtc.begin();
+  rtc.adjust(DateTime(__DATE__, __TIME__));
+
+  pinMode(pps,INPUT);      // PRESSURE PUMP SWITCH
+  pinMode(ms,INPUT);       // MANUAL SWITCH
+  pinMode(ev,OUTPUT);      // ELECTRICAL VALVE
+  pinMode(pp,OUTPUT);      // PRESSURE PUMP
+  pinMode(10,OUTPUT);     // SD WRITE
+  digitalWrite(ev,HIGH);  // TURN VALVE OFF INITIALLY
+  digitalWrite(pp,HIGH);  // TURN PRESSURE PUMP OFF INITIALLY
+    
+  if (!SD.begin(10)) {
+    Serial.println("Error : Push the reset button");
+    for (;;);
+  }  
+  file = SD.open(filename, FILE_WRITE); 
+  if (file.size() == 0) {
+    file.print("Watering Time, Moisture 1, Moisture 2, Moisture 3, Moisture 4, Water count");
+  }
+} 
+
+void loop() {
+  
+  int manualState = digitalRead(ms);                        // Read the INPUT VOLTAGE OF PIN 3
+  int ppState = digitalRead(pps);                           // READ THE INPUT VOLTAGE OF PIN 2
+  int ActppSt = digitalRead(pp);                            // READ ACTUAL PUMP STATE
+  int sensorVal1 = analogRead(A0);
+  int sensorVal2 = analogRead(A1);
+  int sensorVal3 = analogRead(A2);
+  int sensorVal4 = analogRead(A3);
+
+  int Moisturelvl1 = map(sensorVal1, wet1, dry1, 100, 0);
+  int Moisturelvl2 = map(sensorVal2, wet2, dry2, 100, 0);
+  int Moisturelvl3 = map(sensorVal3, wet3, dry3, 100, 0);
+  int Moisturelvl4 = map(sensorVal4, wet4, dry4, 100, 0);
+
+
+
+  if ((Moisturelvl1<=LowMoisture)||(Moisturelvl2<=LowMoisture)||(Moisturelvl3<=LowMoisture)||(Moisturelvl4<=LowMoisture)) {
+    watercond = 1;                                         // Condition to water
+  }
+  else if ((Moisturelvl1>=HighMoisture)||(Moisturelvl2>=HighMoisture)||(Moisturelvl3>=HighMoisture)||(Moisturelvl4>=HighMoisture)){
+    watercond = 0;                                         // Condition to stop water
+  }
+  
+  DateTime now = rtc.now();
+  sprintf(Time, "%02d:%02d:%02d %02d/%02d/%02d",  now.hour(), now.minute(), now.second(), now.day(), now.month(), now.year());
+  
+  if ((now.hour()==0) && (now.minute()==0)){
+  watercount = 0;
+  }
+
+  Serial.print(Time);
+  Serial.print("  ");
+  Serial.print(Moisturelvl1);
+  Serial.print(",");
+  Serial.print(Moisturelvl2);
+  Serial.print(",");
+  Serial.print(Moisturelvl3);
+  Serial.print(",");
+  Serial.print(Moisturelvl4);
+  Serial.print(", Watercount:");
+  Serial.print(watercount);
+  Serial.print(", Manual Switch State:");
+  if (manualState == HIGH){
+  Serial.print ("OFF");
+  }
+  else {
+  Serial.print ("ON");
+  }
+  Serial.print(", Pump Switch State:");
+  if (ppState == HIGH){
+  Serial.print ("OFF");
+  }
+  else {
+  Serial.print ("ON");
+  }
+  Serial.print(", Pump State:");
+  if (ActppSt == HIGH){
+  Serial.println ("OFF");
+  }
+  else {
+  Serial.println ("ON");
+  }
+
+  if (ppState == LOW){
+    if ( now.hour()>=7 && now.hour()<=23){
+          digitalWrite(pp,LOW);                                           // TURN PRESSURE PUMP ON
+          delay(200);
+    }
+  }
+  else {
+    digitalWrite(pp,HIGH);                                          // TURN PRESSURE PUMP OFF
+    delay(200);
+  }
+
+  if (manualState == LOW || watercount<maxwatercount){
+    if (manualState == LOW || watercond == 1){
+       digitalWrite(ev,LOW);                                        // TURN VALVE ON
+       digitalWrite(pp,LOW);                                        // TURN PRESSURE PUMP ON
+       delay(60000);
+       watercount = watercount+1;
+       if (file) {
+        file.print(Time);
+        file.print(",");
+        file.print(Moisturelvl1);
+        file.print(",");
+        file.print(Moisturelvl2);
+        file.print(",");
+        file.print(Moisturelvl3);
+        file.print(",");
+        file.print(Moisturelvl4);
+        file.print(",");
+        file.println(watercount);
+        file.flush();
+        }
+       else {
+        Serial.println("Error opening datalog.txt");
+         }
+    }
+      else {
+       digitalWrite(ev,HIGH);                                            // TURN VALVE OFF
+       delay(200);
+       }
+  }
+  
+  else {
+  digitalWrite(ev,HIGH);                                            // TURN VALVE OFF
+  delay(200);
+  }
+
+  delay(600);
+}

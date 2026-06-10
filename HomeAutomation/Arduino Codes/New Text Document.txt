@@ -1,0 +1,48 @@
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+int ledstate = 0;
+int ledpin = 8;
+int buttonpin = 10;
+int buttonnew;
+int buttonold = 1;
+int dt = 500;
+void setup() {
+  // put your setup code here, to run once:
+  Serial.begin(9600);
+  // initialize the LCD
+  lcd.begin();
+  pinMode(ledpin, OUTPUT);
+  pinMode(buttonpin, INPUT);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  lcd.setCursor(0, 0);
+  lcd.print("System is Ready");
+
+  buttonnew = digitalRead(buttonpin);
+  if (buttonold == 0 && buttonnew == 1)
+  {
+    if (ledstate == 0)
+    {
+      digitalWrite(ledpin, HIGH);
+      ledstate = 1;
+      lcd.clear();
+      lcd.setCursor(0, 0);
+      lcd.print("Motor is ON");
+      
+    }
+    else
+    {
+      digitalWrite(ledpin, LOW);
+      ledstate = 0;
+      lcd.clear();
+      lcd.setCursor(0, 0);
+      lcd.print("Motor is OFF");
+      
+    }  
+  }
+  buttonold = buttonnew;
+  delay(dt);
+}
